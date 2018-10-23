@@ -35,9 +35,76 @@ namespace twozerofoureight
             HandleChanges();
         }
 
+        public int GetScore()
+        {
+            int result = 0;
+            for(int i=0; i<boardSize; i++)
+            {
+                for(int j=0; j<boardSize; j++)
+                {
+                    result = result + board[i,j];
+                }
+            }
+            return result;
+        }
+                          
         public int[,] GetBoard()
         {
             return board;
+        }
+        
+        public bool CheckGameOver()
+        {
+            bool over = false;
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if(board[i,j] == 2048)
+                    {
+                        over = true;
+                    }
+                }
+            }
+            return over;
+        }
+        
+        public bool CheckFullSlot()
+        {
+            int size = boardSize;
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (board[i, j] == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            for(int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (j + 1 < size && board[i, j + 1] == board[i, j])
+                    {
+                        return false;
+                    }
+                    if (i + 1 < size && board[i + 1, j] == board[i, j])
+                    {
+                        return false;
+                    }
+                    if (j - 1 >= 0 && board[i, j - 1] == board[i, j])
+                    {
+                        return false;
+                    }
+                    if (i - 1 >= 0 && board[i - 1, j] == board[i, j])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         private void AddRandomSlot()
